@@ -84,6 +84,10 @@ defmodule Library do
   end
 
   def list_books(library) do
+    library
+  end
+
+  def print_books(library) do
     IO.puts("Libros:")
     Enum.each(library, fn book ->
       print_book(book)
@@ -92,13 +96,7 @@ defmodule Library do
   end
 
   def list_available_books(library) do
-    IO.puts("Libros:")
-    Enum.each(library, fn book ->
-      if book.available do
-        print_book(book)
-      end
-      IO.puts("")
-    end)
+    Enum.filter(library, &(&1.available))
   end
 
   def print_book(%Book{} = book) do
@@ -112,15 +110,24 @@ defmodule Library do
     users
   end
 
+  def print_users(users) do
+    IO.puts("Usuarios:")
+    Enum.each(users, fn user ->
+      IO.puts("ID: #{user.id} - Nombre: #{user.name}")
+    end)
+    IO.puts("")
+  end
+
   def books_borrowed_by_user(users, user_id) do
     user = Enum.find(users, &(&1.id == user_id))
     if user, do: user.borrowed_books, else: []
   end
 
+  def list_users_with_borrowed_books(users) do
+    Enum.filter(users, &(length(&1.borrowed_books) > 0))
+  end
+
   def run do
-    #library = []
-    #users = []
-    IO.inspect(initLibrary())
     {library, users} = initLibrary()
     loop(library, users)
   end
@@ -148,13 +155,15 @@ defmodule Library do
     Sistema de prestamo de libros
     1. Agregar libro a la biblioteca
     2. Listar todos los libros
-    #. Listar libros disponibles para prestamo
     3. Registrar nuevo usuario
     4. Listar usuarios registrados
     5. Pedir prestado un libro
     6. Devolver libro prestado
     7. Listar libros prestados por un usuario
-    8. Salir
+    8. Listar libros disponibles para prestamo
+    9. Listar usuarios con libros prestados
+    10. Verificar disponibilidad de un libro
+    11. Salir
     """)
 
     IO.write("Seleccione una opción: ")
@@ -174,7 +183,7 @@ defmodule Library do
         loop(library, users)
 
       2 ->
-        list_books(library)
+        print_books(list_books(library))
         loop(library, users)
 
       3 ->
@@ -186,7 +195,7 @@ defmodule Library do
         loop(library, users)
 
       4 ->
-        list_users(users)
+        print_users(list_users(users))
         loop(library, users)
 
       5 ->
@@ -208,10 +217,25 @@ defmodule Library do
       7 ->
         IO.write("Ingrese el id del usuario: ")
         user_id = IO.gets("") |> String.trim()
-        books_borrowed_by_user(users, user_id)
+        print_books(books_borrowed_by_user(users, user_id))
         loop(library, users)
 
       8 ->
+        print_books(list_available_books(library))
+        loop(library, users)
+
+      9 ->
+        print_users(list_users_with_borrowed_books(users))
+        loop(library, users)
+
+      10 ->
+        IO.write("Ingrese el isbn del libro: ")
+        isbn = IO.gets("") |> String.trim()
+        print_book(Enum.find(library, &(&1.isbn == isbn)))
+        IO.puts("")
+        loop(library, users)
+
+      11 ->
         IO.puts("¡Adiós!")
         :ok
 
