@@ -1,0 +1,20 @@
+[
+  {
+    "id": 2,
+    "name": "Santiago Posada",
+    "position": "Developer",
+    "email": "santiago@mail.com",
+    "phone": "3184568",
+    "hire_date": null,
+    "salary": null
+  },
+  {
+    "id": 1,
+    "name": "Camilo Quintana",
+    "position": "Developer",
+    "email": "camilo@mail.com",
+    "phone": "3184568",
+    "hire_date": null,
+    "salary": null
+  }
+]
