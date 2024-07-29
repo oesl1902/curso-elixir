@@ -1,6 +1,24 @@
 [
   {
-    "id": 2,
+    "id": 5,
+    "name": "Camilo Quintana",
+    "position": "QA",
+    "email": "camiloq@mail.com",
+    "phone": "321456",
+    "hire_date": null,
+    "salary": null
+  },
+  {
+    "id": 4,
+    "name": "Camilo Quintana",
+    "position": "Developer",
+    "email": "camilo@mail.com",
+    "phone": "3184568",
+    "hire_date": "2024-07-29",
+    "salary": "4'000.000"
+  },
+  {
+    "id": 3,
     "name": "Santiago Posada",
     "position": "Developer",
     "email": "santiago@mail.com",
@@ -9,12 +27,21 @@
     "salary": null
   },
   {
-    "id": 1,
-    "name": "Camilo Quintana",
+    "id": 2,
+    "name": "Oscar Sanchez",
     "position": "Developer",
-    "email": "camilo@mail.com",
-    "phone": "3184568",
+    "email": "oscar@mail.com",
+    "phone": "30124957",
     "hire_date": null,
     "salary": null
+  },
+  {
+    "id": 1,
+    "name": "John Doe",
+    "position": "Manager",
+    "email": "john@mail.com",
+    "phone": "11111111",
+    "hire_date": null,
+    "salary": "999'000.000"
   }
 ]

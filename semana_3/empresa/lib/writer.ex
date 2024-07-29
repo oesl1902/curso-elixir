@@ -102,4 +102,77 @@ defmodule Writer do
     |> Enum.max(fn -> 0 end)
     |> Kernel.+(1)
   end
+
+  @doc """
+  Deletes an Employee from a JSON file.
+
+  ## Parameters
+  - `id`: Integer, the ID of the employee to delete
+  - `filename`: String, the name of the JSON file to read from (optional, default: "employees.json")
+
+  ## Returns
+  - `:ok` if the write operation is successful
+  - `{:error, term()}` if an error occurs
+
+  ## Special Symbols
+  - `@doc`: Provides documentation for the function
+  - `@spec`: Specifies the function's type specification
+  - `def`: Defines a public function
+  - `\\\\`: Default argument separator
+  - `%Employee{}`: Pattern matches an Employee struct
+  - `|>`: The pipe operator, passes the result of the previous expression as the first argument to the next function
+
+  ## Examples
+      iex> Writer.delete_employee_by_id(1)
+      :ok
+  """
+  @spec delete_employee_by_id(integer(), String.t()) :: :ok | {:error, term()}
+  def delete_employee_by_id(id, filename \\ "employees.json") do
+    employees = read_employees(filename)
+    updated_employees = Enum.filter(employees, &(&1.id != id))
+    json_data = Jason.encode!(updated_employees, pretty: true)
+    File.write(filename, json_data)
+  end
+
+  @doc """
+  Update an Employee from a JSON file by id.
+
+  ## Parameters
+  - `id`: Integer, the ID of the employee to update
+  - `opts`: Keyword list of optional attributes (optional)
+  - `filename`: String, the name of the JSON file to read from (optional, default: "employees.json")
+
+  ## Returns
+  - `:ok` if the write operation is successful
+  - `{:error, term()}` if an error occurs
+
+  ## Special Symbols
+  - `@doc`: Provides documentation for the function
+  - `@spec`: Specifies the function's type specification
+  - `def`: Defines a public function
+  - `\\\\`: Default argument separator
+  - `%Employee{}`: Pattern matches an Employee struct
+  - `|>`: The pipe operator, passes the result of the previous expression as the first argument to the next function
+
+  ## Examples
+      iex> Writer.update_employee_by_id(1,[name: "John Doe", position: "Manager", email: "john@mail.com", ...])
+      :ok
+  """
+  #@spec update_employee_by_id(integer(), [], String.t()) :: :ok | {:error, term()}
+  def update_employee_by_id(id, opts \\ [], filename \\ "employees.json") do
+    employees = read_employees(filename)
+    employee = Enum.find(employees, &(&1.id == id))
+    updated_values = struct(Employee, opts)
+    updated_employee = Map.merge(employee, updated_values, fn
+      _,v1,v2 when is_nil(v2) -> v1
+      _,_,v2 -> v2
+    end)
+    updated_employees = Enum.map(employees, fn
+      e when e.id == id -> updated_employee
+      e -> e
+    end)
+    json_data = Jason.encode!(updated_employees, pretty: true)
+    File.write(filename, json_data)
+  end
+
 end

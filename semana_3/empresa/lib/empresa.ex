@@ -54,6 +54,9 @@ defmodule Empresa do
     ## Examples
         iex> Empresa.Employee.new("John Doe", "Developer")
         %Empresa.Employee{name: "John Doe", position: "Developer"}
+
+        iex> Empresa.Employee.new("John Doe", "Developer", [email: "johndoe@mail.com", phone: "12345"...])
+        %Empresa.Employee{name: "John Doe", position: "Developer", email: "johndoe@mail.com", phone: "12345"...}
     """
     def new(name, position, opts \\ []) do
       struct!(__MODULE__, [name: name, position: position] ++ opts)
